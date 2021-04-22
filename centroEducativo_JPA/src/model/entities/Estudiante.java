@@ -32,6 +32,11 @@ public class Estudiante implements Serializable {
 
 	private String telefono;
 
+	//bi-directional many-to-one association to Tipologiasexo
+	@ManyToOne
+	@JoinColumn(name="sexo")
+	private Tipologiasexo tipologiasexo;
+
 	//bi-directional many-to-one association to ValoracionMateria
 	@OneToMany(mappedBy="estudiante")
 	private List<ValoracionMateria> valoracionmaterias;
@@ -101,6 +106,14 @@ public class Estudiante implements Serializable {
 
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
+	}
+
+	public Tipologiasexo getTipologiasexo() {
+		return this.tipologiasexo;
+	}
+
+	public void setTipologiasexo(Tipologiasexo tipologiasexo) {
+		this.tipologiasexo = tipologiasexo;
 	}
 
 	public List<ValoracionMateria> getValoracionmaterias() {
