@@ -57,7 +57,7 @@ public class ControladorProfesor {
 		Profesor p = null;
 		
 		EntityManager em = factory.createEntityManager();
-		Query q = em.createNativeQuery("select * from centroeducativo.coche order by id desc limit 1", Profesor.class);
+		Query q = em.createNativeQuery("select * from centroeducativo.profesor order by id desc limit 1", Profesor.class);
 		p = (Profesor) q.getSingleResult();
 		em.close();
 		
@@ -132,10 +132,13 @@ public class ControladorProfesor {
 	 * @param id
 	 * @return
 	 */
-	public void borrar(Profesor c) {
+	public void borrar(Profesor p) {
 		EntityManager em = factory.createEntityManager();
-		em.getTransaction().begin();
-		em.remove(c);
+		em.getTransaction().begin(); 
+		if (!em.contains(p)) {
+		    p = em.merge(p);
+		}
+		em.remove(p);
 		em.getTransaction().commit();
 		em.close();
 	}

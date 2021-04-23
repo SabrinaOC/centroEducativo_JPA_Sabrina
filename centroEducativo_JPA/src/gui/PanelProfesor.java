@@ -124,16 +124,6 @@ public class PanelProfesor extends JPanel {
 
 	}
 	
-	/**
-	 * 
-	 */
-//	private void cargarDatosSexo() {
-//		List<TipologiaSexo> sexos = ControladorFabricante.getInstance().findAll();
-//		
-//		for (TipologiaSexo s : sexos) {
-//			this.panelcomun.getSexo().addItem(s);
-//		}
-//	}
 
 	/**
 	 * 
@@ -148,7 +138,7 @@ public class PanelProfesor extends JPanel {
 			panelcomun.setDireccion(this.actual.getDireccion());
 			panelcomun.setEmail(this.actual.getEmail());
 			panelcomun.setTelefono(this.actual.getTelefono());
-			
+			panelcomun.setSexo(this.actual.getTipologiasexo());
 			
 		}
 	}

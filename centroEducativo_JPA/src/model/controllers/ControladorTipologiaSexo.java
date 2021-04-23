@@ -1,5 +1,7 @@
 package model.controllers;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -137,10 +139,27 @@ public class ControladorTipologiaSexo {
 	public void borrar(Tipologiasexo s) {
 		EntityManager em = factory.createEntityManager();
 		em.getTransaction().begin();
+		if (!em.contains(s)) {
+		    s = em.merge(s);
+		}
 		em.remove(s);
 		em.getTransaction().commit();
 		em.close();
 	}
+	
+	/**
+	 * Método para meter todos los sexos en una lista y usarlo en el jcb
+	 * @return
+	 */
+	public List<Tipologiasexo> findAll () {
+		EntityManager em = factory.createEntityManager();
+		
+		Query q = em.createNativeQuery("SELECT * FROM tipologiasexo", Tipologiasexo.class);
+		
+		List<Tipologiasexo> list = (List<Tipologiasexo>) q.getResultList();
+		em.close();
+		return list;
+	}	
 
 	
 	

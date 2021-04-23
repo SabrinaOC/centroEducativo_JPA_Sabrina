@@ -6,13 +6,17 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
+
 import model.controllers.ControladorEstudiante;
+import model.controllers.ControladorTipologiaSexo;
 import model.entities.Estudiante;
+import model.entities.Tipologiasexo;
 
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.awt.GridBagConstraints;
 
 
@@ -118,16 +122,7 @@ public class PanelEstudiante extends JPanel {
 
 	}
 
-	/**
-	 * 
-	 */
-//	private void cargarDatosSexo() {
-//		List<TipologiaSexo> sexos = ControladorFabricante.getInstance().findAll();
-//		
-//		for (TipologiaSexo s : sexos) {
-//			this.panelcomun.getSexo().addItem(s);
-//		}
-//	}
+	
 
 	/**
 	 * 
@@ -142,8 +137,7 @@ public class PanelEstudiante extends JPanel {
 			panelcomun.setDireccion(this.actual.getDireccion());
 			panelcomun.setEmail(this.actual.getEmail());
 			panelcomun.setTelefono(this.actual.getTelefono());
-			
-			
+			panelcomun.setSexo(this.actual.getTipologiasexo());
 		}
 	}
 	
@@ -158,6 +152,8 @@ public class PanelEstudiante extends JPanel {
 		this.actual.setDni(panelcomun.getDni());
 		this.actual.setDireccion(panelcomun.getDireccion());
 		this.actual.setEmail(panelcomun.getEmail());
+		
+		this.actual.setTipologiasexo(panelcomun.getSexo());;
 		
 	}
 	

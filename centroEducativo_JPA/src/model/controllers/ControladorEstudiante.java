@@ -137,6 +137,9 @@ public class ControladorEstudiante {
 	public void borrar(Estudiante e) {
 		EntityManager em = factory.createEntityManager();
 		em.getTransaction().begin();
+		if (!em.contains(e)) {
+		    e = em.merge(e);
+		}
 		em.remove(e);
 		em.getTransaction().commit();
 		em.close();
