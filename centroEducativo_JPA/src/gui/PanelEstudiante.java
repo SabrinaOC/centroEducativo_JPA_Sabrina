@@ -138,6 +138,7 @@ public class PanelEstudiante extends JPanel {
 			panelcomun.setEmail(this.actual.getEmail());
 			panelcomun.setTelefono(this.actual.getTelefono());
 			panelcomun.setSexo(this.actual.getTipologiasexo());
+			panelcomun.setImagen(this.actual.getImagen());
 		}
 	}
 	
@@ -152,8 +153,8 @@ public class PanelEstudiante extends JPanel {
 		this.actual.setDni(panelcomun.getDni());
 		this.actual.setDireccion(panelcomun.getDireccion());
 		this.actual.setEmail(panelcomun.getEmail());
-		
 		this.actual.setTipologiasexo(panelcomun.getSexo());;
+		this.actual.setImagen(panelcomun.getImagen());
 		
 	}
 	
@@ -169,6 +170,7 @@ public class PanelEstudiante extends JPanel {
 		this.panelcomun.setDireccion("");
 		this.panelcomun.setEmail("");
 		this.panelcomun.setTelefono("");
+		this.panelcomun.setImagen(null);
 	}
 	
 	/**

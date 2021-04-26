@@ -2,9 +2,12 @@ package gui;
 
 import javax.swing.JPanel;
 import java.awt.GridBagLayout;
+
+
 import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileFilter;
 
 import model.controllers.ControladorTipologiaSexo;
 import model.entities.Tipologiasexo;
@@ -13,8 +16,15 @@ import java.awt.Insets;
 import java.util.List;
 
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JScrollPane;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.awt.event.ActionEvent;
 
 public class PnInfoPersonal extends JPanel {
 	private JTextField jtfId;
@@ -27,19 +37,18 @@ public class PnInfoPersonal extends JPanel {
 	private JTextField jtfEmail;
 	private JTextField jtfTelefono;
 	private JScrollPane scrollPane;
-	private JLabel lblNewLabel_9;
 	private JButton btnCambiarImagen;
+	private JFileChooser jfileChooser;
+	private byte arrayBytesImagen[];
 	
-//	private int id, telefono;
-//	private String nombre, apellido1, apellido2, dni, direccion, email;
-//	private String sexo;
+	//Image imagen;
 
 	/**
 	 * Create the panel.
 	 */
 	public PnInfoPersonal() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 193, 0, 0};
+		gridBagLayout.columnWidths = new int[]{0, 211, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
@@ -65,22 +74,12 @@ public class PnInfoPersonal extends JPanel {
 		
 		scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.gridheight = 7;
 		gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 2;
 		gbc_scrollPane.gridy = 0;
 		add(scrollPane, gbc_scrollPane);
-		
-		lblNewLabel_9 = new JLabel("");
-		scrollPane.setColumnHeaderView(lblNewLabel_9);
-		
-		btnCambiarImagen = new JButton("Cambiar imagen");
-		GridBagConstraints gbc_btnCambiarImagen = new GridBagConstraints();
-		gbc_btnCambiarImagen.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnCambiarImagen.insets = new Insets(0, 0, 5, 0);
-		gbc_btnCambiarImagen.gridx = 2;
-		gbc_btnCambiarImagen.gridy = 1;
-		add(btnCambiarImagen, gbc_btnCambiarImagen);
 		
 		JLabel lblNewLabel_1 = new JLabel("Nombre:");
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
@@ -204,6 +203,19 @@ public class PnInfoPersonal extends JPanel {
 		add(jtfEmail, gbc_jtfEmail);
 		jtfEmail.setColumns(10);
 		
+		btnCambiarImagen = new JButton("Cambiar imagen");
+		btnCambiarImagen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				seleccionaFichero();
+			}
+		});
+		GridBagConstraints gbc_btnCambiarImagen = new GridBagConstraints();
+		gbc_btnCambiarImagen.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnCambiarImagen.insets = new Insets(0, 0, 5, 0);
+		gbc_btnCambiarImagen.gridx = 2;
+		gbc_btnCambiarImagen.gridy = 8;
+		add(btnCambiarImagen, gbc_btnCambiarImagen);
+		
 		JLabel lblNewLabel_7 = new JLabel("Teléfono:");
 		GridBagConstraints gbc_lblNewLabel_7 = new GridBagConstraints();
 		gbc_lblNewLabel_7.anchor = GridBagConstraints.EAST;
@@ -314,7 +326,89 @@ public class PnInfoPersonal extends JPanel {
 		}
 	}
 
+	public byte[] getImagen() {
+		return this.arrayBytesImagen;
+	}
+
+	public void setImagen(byte[] imagen) {
+		this.arrayBytesImagen = imagen;
+		JLabel lbl;
+		if (imagen != null) {
+			ImageIcon image = new ImageIcon(imagen);
+			lbl = new JLabel(image);
+		}
+		else {
+			lbl = new JLabel();			
+		}
+		this.scrollPane.setViewportView(lbl);
+		this.scrollPane.revalidate();
+		this.scrollPane.repaint();
+		
+		
+	}
+
 	
 	
+	
+	/**
+	 * 
+	 */
+	private void seleccionaFichero () {
+		this.jfileChooser = new JFileChooser();
+		
+		// Configurando el componente
+		
+		// Establecimiento de la carpeta de inicio
+//		this.jfileChooser.setCurrentDirectory(new File("C:\\"));
+		
+		// Tipo de selecci�n que se hace en el di�logo
+		//this.jfileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY); // S�lo selecciona ficheros
+		//this.jfileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY); // S�lo selecciona ficheros
+		this.jfileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES); // Selecciona ficheros y carpetas
+		
+		// Filtro del tipo de ficheros que puede abrir
+		this.jfileChooser.setFileFilter(new FileFilter() {
+			
+			@Override
+			public String getDescription() {
+				return "Archivos de imagen *.jpg *.png";
+			}
+			
+			@Override
+			public boolean accept(File f) {
+				if (f.isDirectory() || (f.isFile() && (f.getAbsolutePath().endsWith(".jpg") || f.getAbsolutePath().endsWith(".png")))) 
+					return true;
+				return false;
+			}
+		});
+		
+		// Abro el di�logo para la elecci�n del usuario
+		int seleccionUsuario = jfileChooser.showOpenDialog(null);
+		
+		if (seleccionUsuario == JFileChooser.APPROVE_OPTION) {
+			File fichero = this.jfileChooser.getSelectedFile();
+						
+			// Volcamos el contenido del fichero al JTextArea
+			this.setImagen(leerContenidoFicheroBinario(fichero));
+		}
+	}
+
+	
+	
+	/**
+	 * 
+	 * @param f
+	 * @return
+	 */
+	private byte[] leerContenidoFicheroBinario (File f) {
+		try {
+			return Files.readAllBytes(f.toPath());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return new byte[] {};
+	}
+
 	
 }

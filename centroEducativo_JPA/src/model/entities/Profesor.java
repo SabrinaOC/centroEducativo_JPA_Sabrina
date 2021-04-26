@@ -28,6 +28,9 @@ public class Profesor implements Serializable {
 
 	private String email;
 
+	@Lob
+	private byte[] imagen;
+
 	private String nombre;
 
 	private String telefono;
@@ -90,6 +93,14 @@ public class Profesor implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public byte[] getImagen() {
+		return this.imagen;
+	}
+
+	public void setImagen(byte[] imagen) {
+		this.imagen = imagen;
 	}
 
 	public String getNombre() {
