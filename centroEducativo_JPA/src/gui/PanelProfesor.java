@@ -140,6 +140,7 @@ public class PanelProfesor extends JPanel {
 			panelcomun.setTelefono(this.actual.getTelefono());
 			panelcomun.setSexo(this.actual.getTipologiasexo());
 			panelcomun.setImagen(this.actual.getImagen());
+			panelcomun.setColorPreferido(this.actual.getColorPreferido());
 			
 		}
 	}
@@ -156,6 +157,7 @@ public class PanelProfesor extends JPanel {
 		this.actual.setDireccion(panelcomun.getDireccion());
 		this.actual.setEmail(panelcomun.getEmail());
 		this.actual.setImagen(panelcomun.getImagen());
+		this.actual.setColorPreferido(panelcomun.getColorPreferido());
 		
 	}
 	
@@ -172,6 +174,7 @@ public class PanelProfesor extends JPanel {
 		this.panelcomun.setEmail("");
 		this.panelcomun.setTelefono("");
 		this.panelcomun.setImagen(null);
+		this.panelcomun.setColorPreferido(null);
 	}
 	
 	/**

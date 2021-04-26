@@ -5,6 +5,8 @@ import java.awt.GridBagLayout;
 
 
 import javax.swing.JLabel;
+
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileFilter;
@@ -20,6 +22,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JScrollPane;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JColorChooser;
+
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
@@ -40,8 +44,13 @@ public class PnInfoPersonal extends JPanel {
 	private JButton btnCambiarImagen;
 	private JFileChooser jfileChooser;
 	private byte arrayBytesImagen[];
+	private JLabel lblNewLabel_9;
+	private JTextField jtfColor;
+	JColorChooser jColorChooser;
+	private JButton btnColor;
 	
-	//Image imagen;
+	
+	//String colorPreferido;
 
 	/**
 	 * Create the panel.
@@ -50,7 +59,7 @@ public class PnInfoPersonal extends JPanel {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 211, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
@@ -86,7 +95,7 @@ public class PnInfoPersonal extends JPanel {
 		gbc_lblNewLabel_1.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_1.gridx = 0;
-		gbc_lblNewLabel_1.gridy = 2;
+		gbc_lblNewLabel_1.gridy = 1;
 		add(lblNewLabel_1, gbc_lblNewLabel_1);
 		
 		jtfNombre = new JTextField();
@@ -94,7 +103,7 @@ public class PnInfoPersonal extends JPanel {
 		gbc_jtfNombre.insets = new Insets(0, 0, 5, 5);
 		gbc_jtfNombre.fill = GridBagConstraints.HORIZONTAL;
 		gbc_jtfNombre.gridx = 1;
-		gbc_jtfNombre.gridy = 2;
+		gbc_jtfNombre.gridy = 1;
 		add(jtfNombre, gbc_jtfNombre);
 		jtfNombre.setColumns(10);
 		
@@ -103,7 +112,7 @@ public class PnInfoPersonal extends JPanel {
 		gbc_lblNewLabel_2.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_2.gridx = 0;
-		gbc_lblNewLabel_2.gridy = 3;
+		gbc_lblNewLabel_2.gridy = 2;
 		add(lblNewLabel_2, gbc_lblNewLabel_2);
 		
 		jtfApellido1 = new JTextField();
@@ -112,7 +121,7 @@ public class PnInfoPersonal extends JPanel {
 		gbc_jtfApellido1.insets = new Insets(0, 0, 5, 5);
 		gbc_jtfApellido1.fill = GridBagConstraints.HORIZONTAL;
 		gbc_jtfApellido1.gridx = 1;
-		gbc_jtfApellido1.gridy = 3;
+		gbc_jtfApellido1.gridy = 2;
 		add(jtfApellido1, gbc_jtfApellido1);
 		jtfApellido1.setColumns(10);
 		
@@ -121,7 +130,7 @@ public class PnInfoPersonal extends JPanel {
 		gbc_lblNewLabel_3.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_3.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_3.gridx = 0;
-		gbc_lblNewLabel_3.gridy = 4;
+		gbc_lblNewLabel_3.gridy = 3;
 		add(lblNewLabel_3, gbc_lblNewLabel_3);
 		
 		jtfApellido2 = new JTextField();
@@ -130,7 +139,7 @@ public class PnInfoPersonal extends JPanel {
 		gbc_jtfApellido2.insets = new Insets(0, 0, 5, 5);
 		gbc_jtfApellido2.fill = GridBagConstraints.HORIZONTAL;
 		gbc_jtfApellido2.gridx = 1;
-		gbc_jtfApellido2.gridy = 4;
+		gbc_jtfApellido2.gridy = 3;
 		add(jtfApellido2, gbc_jtfApellido2);
 		jtfApellido2.setColumns(10);
 		
@@ -139,7 +148,7 @@ public class PnInfoPersonal extends JPanel {
 		gbc_lblNewLabel_8.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_8.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_8.gridx = 0;
-		gbc_lblNewLabel_8.gridy = 5;
+		gbc_lblNewLabel_8.gridy = 4;
 		add(lblNewLabel_8, gbc_lblNewLabel_8);
 		
 		jcbSexo = new JComboBox();
@@ -147,7 +156,7 @@ public class PnInfoPersonal extends JPanel {
 		gbc_jcbSexo.insets = new Insets(0, 0, 5, 5);
 		gbc_jcbSexo.fill = GridBagConstraints.HORIZONTAL;
 		gbc_jcbSexo.gridx = 1;
-		gbc_jcbSexo.gridy = 5;
+		gbc_jcbSexo.gridy = 4;
 		add(jcbSexo, gbc_jcbSexo);
 		
 		JLabel lblNewLabel_4 = new JLabel("DNI:");
@@ -155,7 +164,7 @@ public class PnInfoPersonal extends JPanel {
 		gbc_lblNewLabel_4.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_4.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_4.gridx = 0;
-		gbc_lblNewLabel_4.gridy = 6;
+		gbc_lblNewLabel_4.gridy = 5;
 		add(lblNewLabel_4, gbc_lblNewLabel_4);
 		
 		jtfDni = new JTextField();
@@ -163,7 +172,7 @@ public class PnInfoPersonal extends JPanel {
 		gbc_jtfDni.insets = new Insets(0, 0, 5, 5);
 		gbc_jtfDni.fill = GridBagConstraints.HORIZONTAL;
 		gbc_jtfDni.gridx = 1;
-		gbc_jtfDni.gridy = 6;
+		gbc_jtfDni.gridy = 5;
 		add(jtfDni, gbc_jtfDni);
 		jtfDni.setColumns(10);
 		
@@ -172,7 +181,7 @@ public class PnInfoPersonal extends JPanel {
 		gbc_lblNewLabel_5.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_5.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_5.gridx = 0;
-		gbc_lblNewLabel_5.gridy = 7;
+		gbc_lblNewLabel_5.gridy = 6;
 		add(lblNewLabel_5, gbc_lblNewLabel_5);
 		
 		jtfDireccion = new JTextField();
@@ -181,7 +190,7 @@ public class PnInfoPersonal extends JPanel {
 		gbc_jtfDireccion.insets = new Insets(0, 0, 5, 5);
 		gbc_jtfDireccion.fill = GridBagConstraints.HORIZONTAL;
 		gbc_jtfDireccion.gridx = 1;
-		gbc_jtfDireccion.gridy = 7;
+		gbc_jtfDireccion.gridy = 6;
 		add(jtfDireccion, gbc_jtfDireccion);
 		jtfDireccion.setColumns(10);
 		
@@ -190,18 +199,8 @@ public class PnInfoPersonal extends JPanel {
 		gbc_lblNewLabel_6.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_6.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_6.gridx = 0;
-		gbc_lblNewLabel_6.gridy = 8;
+		gbc_lblNewLabel_6.gridy = 7;
 		add(lblNewLabel_6, gbc_lblNewLabel_6);
-		
-		jtfEmail = new JTextField();
-		jtfEmail.setText("");
-		GridBagConstraints gbc_jtfEmail = new GridBagConstraints();
-		gbc_jtfEmail.insets = new Insets(0, 0, 5, 5);
-		gbc_jtfEmail.fill = GridBagConstraints.HORIZONTAL;
-		gbc_jtfEmail.gridx = 1;
-		gbc_jtfEmail.gridy = 8;
-		add(jtfEmail, gbc_jtfEmail);
-		jtfEmail.setColumns(10);
 		
 		btnCambiarImagen = new JButton("Cambiar imagen");
 		btnCambiarImagen.addActionListener(new ActionListener() {
@@ -209,6 +208,33 @@ public class PnInfoPersonal extends JPanel {
 				seleccionaFichero();
 			}
 		});
+		
+		jtfEmail = new JTextField();
+		jtfEmail.setText("");
+		GridBagConstraints gbc_jtfEmail = new GridBagConstraints();
+		gbc_jtfEmail.insets = new Insets(0, 0, 5, 5);
+		gbc_jtfEmail.fill = GridBagConstraints.HORIZONTAL;
+		gbc_jtfEmail.gridx = 1;
+		gbc_jtfEmail.gridy = 7;
+		add(jtfEmail, gbc_jtfEmail);
+		jtfEmail.setColumns(10);
+		
+		JLabel lblNewLabel_7 = new JLabel("Teléfono:");
+		GridBagConstraints gbc_lblNewLabel_7 = new GridBagConstraints();
+		gbc_lblNewLabel_7.anchor = GridBagConstraints.EAST;
+		gbc_lblNewLabel_7.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_7.gridx = 0;
+		gbc_lblNewLabel_7.gridy = 8;
+		add(lblNewLabel_7, gbc_lblNewLabel_7);
+		
+		jtfTelefono = new JTextField();
+		GridBagConstraints gbc_jtfTelefono = new GridBagConstraints();
+		gbc_jtfTelefono.insets = new Insets(0, 0, 5, 5);
+		gbc_jtfTelefono.fill = GridBagConstraints.HORIZONTAL;
+		gbc_jtfTelefono.gridx = 1;
+		gbc_jtfTelefono.gridy = 8;
+		add(jtfTelefono, gbc_jtfTelefono);
+		jtfTelefono.setColumns(10);
 		GridBagConstraints gbc_btnCambiarImagen = new GridBagConstraints();
 		gbc_btnCambiarImagen.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnCambiarImagen.insets = new Insets(0, 0, 5, 0);
@@ -216,22 +242,35 @@ public class PnInfoPersonal extends JPanel {
 		gbc_btnCambiarImagen.gridy = 8;
 		add(btnCambiarImagen, gbc_btnCambiarImagen);
 		
-		JLabel lblNewLabel_7 = new JLabel("Teléfono:");
-		GridBagConstraints gbc_lblNewLabel_7 = new GridBagConstraints();
-		gbc_lblNewLabel_7.anchor = GridBagConstraints.EAST;
-		gbc_lblNewLabel_7.insets = new Insets(0, 0, 0, 5);
-		gbc_lblNewLabel_7.gridx = 0;
-		gbc_lblNewLabel_7.gridy = 9;
-		add(lblNewLabel_7, gbc_lblNewLabel_7);
+		lblNewLabel_9 = new JLabel("Color preferido:");
+		GridBagConstraints gbc_lblNewLabel_9 = new GridBagConstraints();
+		gbc_lblNewLabel_9.anchor = GridBagConstraints.EAST;
+		gbc_lblNewLabel_9.insets = new Insets(0, 0, 0, 5);
+		gbc_lblNewLabel_9.gridx = 0;
+		gbc_lblNewLabel_9.gridy = 9;
+		add(lblNewLabel_9, gbc_lblNewLabel_9);
 		
-		jtfTelefono = new JTextField();
-		GridBagConstraints gbc_jtfTelefono = new GridBagConstraints();
-		gbc_jtfTelefono.insets = new Insets(0, 0, 0, 5);
-		gbc_jtfTelefono.fill = GridBagConstraints.HORIZONTAL;
-		gbc_jtfTelefono.gridx = 1;
-		gbc_jtfTelefono.gridy = 9;
-		add(jtfTelefono, gbc_jtfTelefono);
-		jtfTelefono.setColumns(10);
+		jtfColor = new JTextField();
+		GridBagConstraints gbc_jtfColor = new GridBagConstraints();
+		gbc_jtfColor.insets = new Insets(0, 0, 0, 5);
+		gbc_jtfColor.fill = GridBagConstraints.HORIZONTAL;
+		gbc_jtfColor.gridx = 1;
+		gbc_jtfColor.gridy = 9;
+		add(jtfColor, gbc_jtfColor);
+		jtfColor.setColumns(10);
+		
+		btnColor = new JButton("Cambiar color");
+		btnColor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				seleccionaColor();
+				
+			}
+		});
+		GridBagConstraints gbc_btnColor = new GridBagConstraints();
+		gbc_btnColor.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnColor.gridx = 2;
+		gbc_btnColor.gridy = 9;
+		add(btnColor, gbc_btnColor);
 		
 		cargarDatosSexo();
 
@@ -346,10 +385,32 @@ public class PnInfoPersonal extends JPanel {
 		
 		
 	}
+	
+	
 
-	
-	
-	
+	public String getColorPreferido() {
+		
+//		if (this.jtfColor.getText() != null) {
+//			
+//		} else {
+//			this.setBackground(Color.gray);
+//		}
+		
+		return this.jtfColor.getText();
+	}
+
+	public void setColorPreferido(String colorPreferido) {
+		if (colorPreferido != null) {
+			this.jtfColor.setText(colorPreferido);
+			Color colorName = Color.decode(colorPreferido);
+			this.setBackground(colorName);
+		} else {
+			this.setBackground(Color.lightGray);
+			this.jtfColor.setText("");
+		}
+		
+	}
+
 	/**
 	 * 
 	 */
@@ -392,8 +453,6 @@ public class PnInfoPersonal extends JPanel {
 			this.setImagen(leerContenidoFicheroBinario(fichero));
 		}
 	}
-
-	
 	
 	/**
 	 * 
@@ -410,5 +469,17 @@ public class PnInfoPersonal extends JPanel {
 		return new byte[] {};
 	}
 
+	/**
+	 * 
+	 */
+	private void seleccionaColor () {
+		Color color = jColorChooser.showDialog(null, "Seleccione un Color", Color.gray);
+		// Si el usuario pulsa sobre aceptar, el color elegido no ser� nulo
+		if (color != null) {
+			String strColor = "#"+Integer.toHexString(color.getRGB()).substring(2);
+			this.jtfColor.setText(strColor);
+			this.setBackground(color);
+		}
+	}
 	
 }
