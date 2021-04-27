@@ -2,7 +2,7 @@ package gui;
 
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
-import javax.swing.JPopupMenu.Separator;
+
 
 import java.awt.GridBagLayout;
 
@@ -24,6 +24,7 @@ import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JScrollPane;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
@@ -56,6 +57,8 @@ public class PnInfoPersonal extends JPanel {
 	private JButton btnColor;
 	private JPopupMenu menuPopUp;
 	
+	ImageIcon image;
+	
 	
 	//String colorPreferido;
 
@@ -63,7 +66,7 @@ public class PnInfoPersonal extends JPanel {
 	 * Create the panel.
 	 */
 	public PnInfoPersonal() {
-		menuPopUp = getPopUpMenu();
+		
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 211, 0, 0};
@@ -409,7 +412,7 @@ public class PnInfoPersonal extends JPanel {
 		this.arrayBytesImagen = imagen;
 		JLabel lbl;
 		if (imagen != null) {
-			ImageIcon image = new ImageIcon(imagen);
+			/*ImageIcon */ image = new ImageIcon(imagen);
 			lbl = new JLabel(image);
 		}
 		else {
@@ -420,17 +423,13 @@ public class PnInfoPersonal extends JPanel {
 		this.scrollPane.repaint();
 		
 		
+		menuPopUp = getPopUpMenu();
+		
 	}
 	
 	
 
 	public String getColorPreferido() {
-		
-//		if (this.jtfColor.getText() != null) {
-//			
-//		} else {
-//			this.setBackground(Color.gray);
-//		}
 		
 		return this.jtfColor.getText();
 	}
@@ -520,11 +519,26 @@ public class PnInfoPersonal extends JPanel {
 	
 	
 	private JPopupMenu getPopUpMenu() {
+		
+		//creamos el jpopupmenu que devolveremos después 
 		JPopupMenu menu = new JPopupMenu();
-		menu.add(crearNuevoMenuItem("Dimensiones"));
+		//como tenemos la imagen declarada arriba, cogemos la imagen actual y sacamos su alto y su ancho
+		
+		
+		
+		
+		if (this.arrayBytesImagen != null) {
+			/*ImageIcon */ image = new ImageIcon(arrayBytesImagen);
+			menu.add(crearNuevoMenuItem("Dimensiones: " + this.image.getIconWidth() + "x" + this.image.getIconHeight()));
+					
+		} else {
+			
+			menu.add(crearNuevoMenuItem("Dimensiones: No hay imagen"));
+			
+		}
 		menu.addSeparator();
 		menu.add(crearNuevoMenuItem("Cambiar imagen"));
-
+		
 		return menu;
 	}
 
