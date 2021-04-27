@@ -1,10 +1,14 @@
 package gui;
 
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JPopupMenu.Separator;
+
 import java.awt.GridBagLayout;
 
 
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -25,6 +29,8 @@ import javax.swing.JButton;
 import javax.swing.JColorChooser;
 
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -48,6 +54,7 @@ public class PnInfoPersonal extends JPanel {
 	private JTextField jtfColor;
 	JColorChooser jColorChooser;
 	private JButton btnColor;
+	private JPopupMenu menuPopUp;
 	
 	
 	//String colorPreferido;
@@ -56,6 +63,8 @@ public class PnInfoPersonal extends JPanel {
 	 * Create the panel.
 	 */
 	public PnInfoPersonal() {
+		menuPopUp = getPopUpMenu();
+		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 211, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -89,6 +98,7 @@ public class PnInfoPersonal extends JPanel {
 		gbc_scrollPane.gridx = 2;
 		gbc_scrollPane.gridy = 0;
 		add(scrollPane, gbc_scrollPane);
+		
 		
 		JLabel lblNewLabel_1 = new JLabel("Nombre:");
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
@@ -251,6 +261,7 @@ public class PnInfoPersonal extends JPanel {
 		add(lblNewLabel_9, gbc_lblNewLabel_9);
 		
 		jtfColor = new JTextField();
+		jtfColor.setEnabled(false);
 		GridBagConstraints gbc_jtfColor = new GridBagConstraints();
 		gbc_jtfColor.insets = new Insets(0, 0, 0, 5);
 		gbc_jtfColor.fill = GridBagConstraints.HORIZONTAL;
@@ -273,6 +284,31 @@ public class PnInfoPersonal extends JPanel {
 		add(btnColor, gbc_btnColor);
 		
 		cargarDatosSexo();
+		
+		//creamos un mouse listener para detectar actividad en el scroll pane
+		scrollPane.addMouseListener(new MouseAdapter() {
+			 
+            @Override
+            public void mousePressed(MouseEvent e) {
+                showPopup(e);
+            }
+ 
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                showPopup(e);
+            }
+ 
+            /**
+             * M�todo llamado cuando se detecta el evento de rat�n, mostrar� el men�
+             * @param e
+             */
+            private void showPopup(MouseEvent e) {
+                if (e.isPopupTrigger()) {
+                    menuPopUp.show(e.getComponent(),
+                            e.getX(), e.getY());
+                }
+            }
+        });
 
 	}
 	
@@ -482,4 +518,30 @@ public class PnInfoPersonal extends JPanel {
 		}
 	}
 	
+	
+	private JPopupMenu getPopUpMenu() {
+		JPopupMenu menu = new JPopupMenu();
+		menu.add(crearNuevoMenuItem("Dimensiones"));
+		menu.addSeparator();
+		menu.add(crearNuevoMenuItem("Cambiar imagen"));
+
+		return menu;
+	}
+
+	/**
+	 * Men� Item para salir de la aplicaci�n
+	 * @return
+	 */
+	private JMenuItem crearNuevoMenuItem (String titulo) {
+        JMenuItem item = new JMenuItem(titulo);
+        item.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	//Aquí realizo las acciones dependiendo de la acción elegida
+                System.out.println("Han hecho clic en: " + titulo);
+            }
+        });
+        
+        return item;
+	}
 }
