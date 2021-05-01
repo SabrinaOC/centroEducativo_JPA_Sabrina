@@ -1,11 +1,14 @@
 package model.controllers;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 import model.entities.Estudiante;
+import model.entities.Tipologiasexo;
 
 
 
@@ -145,6 +148,20 @@ public class ControladorEstudiante {
 		em.close();
 	}
 
+	
+	/**
+	 * Método para meter todos los estudiantes en una lista y usarlo en el jcb
+	 * @return
+	 */
+	public List<Estudiante> findAll () {
+		EntityManager em = factory.createEntityManager();
+		
+		Query q = em.createNativeQuery("SELECT * FROM estudiante", Estudiante.class);
+		
+		List<Estudiante> list = (List<Estudiante>) q.getResultList();
+		em.close();
+		return list;
+	}
 	
 	
 

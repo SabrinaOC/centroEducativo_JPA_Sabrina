@@ -1,19 +1,14 @@
 package model.controllers;
 
-import java.util.List;
+
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
-import model.entities.Profesor;
+
 import model.entities.ValoracionMateria;
-
-
-
-
-
 
 
 public class ControladorValoracionMateria {
@@ -106,37 +101,24 @@ public class ControladorValoracionMateria {
 	}
 	
 	/**
-	 * Método para buscar todos los alumnos que coinciden con un profesor y una materia determinada
+	 * Método para buscar si existe un registro con un estudiante, profesor, materia determinados
 	 * @return
 	 */
-	public List<ValoracionMateria> findAlumnosProfMaterias (int idProfesor, int idMateria) {
-		//ValoracionMateria v = null;
-		List<ValoracionMateria> todos;
+	public ValoracionMateria findByAlumnoAndProfesorAndMateria (int idEstudiante, int idProfesor, int idMateria) {
+		ValoracionMateria v;
+		
 		
 		EntityManager em = factory.createEntityManager();
-		Query q = em.createNativeQuery("select * from centroeducativo.valoracionmateria where idProfesor=? and idMateria= ?", ValoracionMateria.class);
-		q.setParameter(1, idProfesor);
-		q.setParameter(2, idMateria);
-		todos = (List<ValoracionMateria>) q.getResultList();
+		Query q = em.createNativeQuery("select * from centroeducativo.valoracionmateria where idEstudiante=? and idProfesor=? and idMateria= ?", ValoracionMateria.class);
+		q.setParameter(1, idEstudiante);
+		q.setParameter(2, idProfesor);
+		q.setParameter(3, idMateria);
+		v = (ValoracionMateria) q.getSingleResult();
 		em.close();
 		
-		return todos;		
+		return v;		
 	}
 	
-	
-	/**
-	 * Método para meter todos los profesores en una lista y usarlo en el jcb
-	 * @return
-	 */
-//	public List<Profesor> findAll () {
-//		EntityManager em = factory.createEntityManager();
-//		
-//		Query q = em.createNativeQuery("SELECT * FROM profesor", Profesor.class);
-//		
-//		List<Profesor> list = (List<Profesor>) q.getResultList();
-//		em.close();
-//		return list;
-//	}	
 
 	
 	/**
