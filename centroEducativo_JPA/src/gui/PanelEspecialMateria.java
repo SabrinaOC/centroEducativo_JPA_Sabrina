@@ -24,6 +24,7 @@ public class PanelEspecialMateria extends JPanel {
 	Estudiante estudiante;
 	Profesor profesor;
 	Materia materia;
+	//int nota;
 
 	/**
 	 * Create the panel.
@@ -69,8 +70,9 @@ public class PanelEspecialMateria extends JPanel {
 		ValoracionMateria nota = ControladorValoracionMateria.getInstance().findByAlumnoAndProfesorAndMateria(estudiante.getId(),
 				prof.getId(), mat.getId());
 		if (nota != null) {
-			this.jtfNota.setText("" + ControladorValoracionMateria.getInstance().findByAlumnoAndProfesorAndMateria(estudiante.getId(),
-					prof.getId(), mat.getId()).getValoracion());
+			//this.jtfNota.setText("" + ControladorValoracionMateria.getInstance().findByAlumnoAndProfesorAndMateria(estudiante.getId(),
+					//prof.getId(), mat.getId()).getValoracion());
+			this.jtfNota.setText("" + 1);
 			
 			System.out.println("jtfNombre: " + this.jlblNombre + "\nnota: " + nota.getValoracion()
 			+ " estudiante: " + nota.getEstudiante().getNombre() + " profesor: " + nota.getProfesor().getNombre() + " materia: " + nota.getMateria().getNombre());
@@ -104,6 +106,14 @@ public class PanelEspecialMateria extends JPanel {
 
 	public void setMateria(Materia materia) {
 		this.materia = materia;
+	}
+
+	public int getNota() {
+		return Integer.parseInt(this.jtfNota.getText());
+	}
+
+	public void setNota(int nota) {
+		this.jtfNota.setText("" + nota);
 	}
 	
 	

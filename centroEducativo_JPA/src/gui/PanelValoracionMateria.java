@@ -214,7 +214,7 @@ public class PanelValoracionMateria extends JPanel {
 			
 
 			// añadimos los paneles a la lista de paneles
-			listaPaneles.add(pnlAluNota);
+			this.listaPaneles.add(pnlAluNota);
 		}
 
 		for (int i = 0; i < listaPaneles.size()-1; i++) {
@@ -243,6 +243,7 @@ public class PanelValoracionMateria extends JPanel {
 			this.actual.setEstudiante(listaPaneles.get(i).getEstudiante());
 			this.actual.setProfesor(listaPaneles.get(i).getProfesor());
 			this.actual.setMateria(listaPaneles.get(i).getMateria());
+			this.actual.setValoracion(listaPaneles.get(i).getNota());
 			
 			boolean resultado = ControladorValoracionMateria.getInstance().guardar(this.actual);
 			if (resultado == true && this.actual != null && this.actual.getId() > 0) {
