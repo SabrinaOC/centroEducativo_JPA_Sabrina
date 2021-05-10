@@ -23,6 +23,7 @@ import model.entities.Profesor;
 import model.entities.ValoracionMateria;
 
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
 
@@ -34,7 +35,7 @@ public class PanelValoracionMateria extends JPanel {
 
 	private ValoracionMateria actual;
 	private List<Estudiante> estudiantes;
-	private List<PanelEspecialMateria> listaPaneles;
+	private List<PanelEspecialMateria> listaPaneles = new ArrayList<PanelEspecialMateria>();;
 	private Profesor profActual;
 	private Materia matActual;
 	private final JButton btnGuardar = new JButton("Guardar");

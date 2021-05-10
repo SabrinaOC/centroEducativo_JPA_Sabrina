@@ -9,6 +9,7 @@ import javax.persistence.Query;
 
 import model.entities.Estudiante;
 import model.entities.Tipologiasexo;
+import model.entities.ValoracionMateria;
 
 
 
@@ -103,6 +104,24 @@ public class ControladorEstudiante {
 		return e;		
 	}
 	
+	/**
+	 * 
+	 * @param idMateria
+	 * @param idProfesor
+	 * @param Nota
+	 * @return
+	 */
+	public List<Estudiante> findByMateriaAndProfesorAndNota(int idMateria, int idProfesor, int valoracion) {
+
+		EntityManager em = factory.createEntityManager();
+
+		Query q = em.createNativeQuery("SELECT * FROM profesor", Estudiante.class);
+
+		List<Estudiante> lista = (List<Estudiante>) q.getResultList();
+		em.close();
+		return lista;
+
+	}
 
 	
 	/**

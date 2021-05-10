@@ -2,12 +2,14 @@ package model.controllers;
 
 
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
-
+import model.entities.Profesor;
 import model.entities.ValoracionMateria;
 
 
@@ -117,8 +119,7 @@ public class ControladorValoracionMateria {
 		em.close();
 		
 		return v;		
-	}
-	
+	}	
 
 	
 	/**
