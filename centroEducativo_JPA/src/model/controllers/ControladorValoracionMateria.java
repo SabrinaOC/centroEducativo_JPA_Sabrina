@@ -9,6 +9,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
+import model.entities.Estudiante;
 import model.entities.Profesor;
 import model.entities.ValoracionMateria;
 
@@ -120,7 +121,50 @@ public class ControladorValoracionMateria {
 		
 		return v;		
 	}	
+	
+	/**
+	 * 
+	 * @param idMateria
+	 * @param idProfesor
+	 * @param Nota
+	 * @return
+	 */
+	public List<Estudiante> findByMateriaAndProfesorAndNota(int idMateria, int idProfesor, float valoracion) {
 
+		EntityManager em = factory.createEntityManager();
+
+		Query q = em.createNativeQuery("SELECT * FROM valoracionmateria where idProfesor = ? and idMateria = ? and valoracion = ?", Estudiante.class);
+		q.setParameter(1, idProfesor);
+		q.setParameter(2, idMateria);
+		q.setParameter(3, valoracion);
+		
+		List<Estudiante> lista = (List<Estudiante>) q.getResultList();
+		em.close();
+		return lista;
+
+	}
+	
+	/**
+	 * 
+	 * @param idMateria
+	 * @param idProfesor
+	 * @param valoracion
+	 * @return
+	 */
+	public List<Estudiante> findEstudiantesNotIn(int idMateria, int idProfesor, float valoracion) {
+
+		EntityManager em = factory.createEntityManager();
+
+		Query q = em.createNativeQuery("select * from estudiante E left join (select idEstudiante from valoracionmateria where idProfesor=? and idMateria=? and valoracion=?) T on E.id=T.idEstudiante where T.idEstudiante is null", Estudiante.class);
+		q.setParameter(1, idProfesor);
+		q.setParameter(2, idMateria);
+		q.setParameter(3, valoracion);
+		
+		List<Estudiante> lista = (List<Estudiante>) q.getResultList();
+		em.close();
+		return lista;
+
+	}
 	
 	/**
 	 * 

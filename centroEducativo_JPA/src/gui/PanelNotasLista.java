@@ -2,19 +2,27 @@ package gui;
 
 import javax.swing.JPanel;
 import java.awt.GridBagLayout;
+
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
 
 import model.controllers.ControladorMateria;
 import model.controllers.ControladorProfesor;
+import model.controllers.ControladorValoracionMateria;
+import model.entities.Estudiante;
 import model.entities.Materia;
 import model.entities.Profesor;
+import model.entities.ValoracionMateria;
+
 import javax.swing.JList;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -25,7 +33,20 @@ public class PanelNotasLista extends JPanel {
 	
 	JComboBox<Materia> jcbMateria;
 	JComboBox<Profesor> jcbProfesor;
-	JComboBox<Integer> jcbNota;
+	JComboBox<Float> jcbNota;
+	
+	
+	// Elemento JList a utilizar en el ejemplo
+	private JList jlstNoSelec, jlstSelec;
+	
+	// Modelo del elemento JList, necesario para que podamos c�modamente agregar y eliminar elementos
+	private DefaultListModel<Estudiante> listModelNoSelec = null;
+	private DefaultListModel<Estudiante> listModelSelec = null;
+	// Lista de todas las provincias de la BBDD, para incluir en el elemento JList
+	private List<Estudiante> listaNoSelec = new ArrayList();
+	private List<Estudiante> listaSelec = new ArrayList();
+	// �ndice de la �ltima provincia agregada, para saber cu�l debe ser la siguiente provincia a agregar
+	//private int indiceProximaProvinciaParaAgregar = 0;
 
 	/**
 	 * Create the panel.
@@ -106,6 +127,9 @@ public class PanelNotasLista extends JPanel {
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
+				//llamamos al método para añadir a la lista los estudiantes no seleccionados
+				agregarNoSelec();
+				agregarSelec();
 			}
 		});
 		GridBagConstraints gbc_btnBuscar = new GridBagConstraints();
@@ -144,7 +168,11 @@ public class PanelNotasLista extends JPanel {
 		gbc_lblNewLabel_4.gridy = 0;
 		panel_1.add(lblNewLabel_4, gbc_lblNewLabel_4);
 		
-		JScrollPane scrollPane = new JScrollPane();
+		jlstNoSelec = new JList(this.getDefaultListModelNoSelect());
+		this.jlstNoSelec.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		
+		
+		JScrollPane scrollPane = new JScrollPane(jlstNoSelec);
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.weightx = 1.0;
 		gbc_scrollPane.insets = new Insets(0, 0, 0, 5);
@@ -153,8 +181,7 @@ public class PanelNotasLista extends JPanel {
 		gbc_scrollPane.gridy = 1;
 		panel_1.add(scrollPane, gbc_scrollPane);
 		
-		JList list = new JList();
-		scrollPane.setViewportView(list);
+		
 		
 		JPanel panel_2 = new JPanel();
 		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
@@ -172,6 +199,10 @@ public class PanelNotasLista extends JPanel {
 		panel_2.setLayout(gbl_panel_2);
 		
 		JButton btnRmvAll = new JButton("<<");
+		btnRmvAll.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		GridBagConstraints gbc_btnRmvAll = new GridBagConstraints();
 		gbc_btnRmvAll.gridwidth = 2;
 		gbc_btnRmvAll.insets = new Insets(0, 0, 5, 5);
@@ -180,6 +211,10 @@ public class PanelNotasLista extends JPanel {
 		panel_2.add(btnRmvAll, gbc_btnRmvAll);
 		
 		JButton btnRmvOne = new JButton("<");
+		btnRmvOne.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		GridBagConstraints gbc_btnRmvOne = new GridBagConstraints();
 		gbc_btnRmvOne.gridwidth = 2;
 		gbc_btnRmvOne.insets = new Insets(0, 0, 5, 5);
@@ -188,6 +223,10 @@ public class PanelNotasLista extends JPanel {
 		panel_2.add(btnRmvOne, gbc_btnRmvOne);
 		
 		JButton btnAddAll = new JButton(">>");
+		btnAddAll.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		GridBagConstraints gbc_btnAddAll = new GridBagConstraints();
 		gbc_btnAddAll.gridwidth = 2;
 		gbc_btnAddAll.insets = new Insets(0, 0, 5, 5);
@@ -196,14 +235,23 @@ public class PanelNotasLista extends JPanel {
 		panel_2.add(btnAddAll, gbc_btnAddAll);
 		
 		JButton btnAddOne = new JButton(">");
+		btnAddOne.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		GridBagConstraints gbc_btnAddOne = new GridBagConstraints();
 		gbc_btnAddOne.gridwidth = 2;
 		gbc_btnAddOne.insets = new Insets(0, 0, 0, 5);
 		gbc_btnAddOne.gridx = 0;
 		gbc_btnAddOne.gridy = 3;
 		panel_2.add(btnAddOne, gbc_btnAddOne);
+
+		jlstSelec = new JList(this.getDefaultListModelSelect());
+		this.jlstSelec.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		//jlstSelec = new JList();
+		//scrollPane_1.setViewportView(jlstSelec);
 		
-		JScrollPane scrollPane_1 = new JScrollPane();
+		JScrollPane scrollPane_1 = new JScrollPane(jlstSelec);
 		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
 		gbc_scrollPane_1.weightx = 1.0;
 		gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
@@ -211,8 +259,7 @@ public class PanelNotasLista extends JPanel {
 		gbc_scrollPane_1.gridy = 1;
 		panel_1.add(scrollPane_1, gbc_scrollPane_1);
 		
-		JList list_1 = new JList();
-		scrollPane_1.setViewportView(list_1);
+		
 		
 		JButton btnGuardar = new JButton("Guardar");
 		GridBagConstraints gbc_btnGuardar = new GridBagConstraints();
@@ -222,7 +269,7 @@ public class PanelNotasLista extends JPanel {
 
 		cargarDatosMaterias();
 		cargarDatosProfesores();
-		cargarNotasInt();
+		cargarNotasFl();
 	}
 	
 	/**
@@ -250,12 +297,84 @@ public class PanelNotasLista extends JPanel {
 	/**
 	 * Método para cargar todos las notas
 	 */
-	private void cargarNotasInt() {
+	private void cargarNotasFl() {
 		//List<Integer> notas;
 
 		for (int i = 0; i < 11; i++ ) {
-			this.jcbNota.addItem(i);
+			this.jcbNota.addItem((float) i);
+			
 		}
+	}
+	
+
+
+	/**
+	 * Método que construye el modelo de JList, a utilizar para agregar y eliminar provincias
+	 */
+	private DefaultListModel getDefaultListModelNoSelect () {
+		this.listModelNoSelec = new DefaultListModel<Estudiante>();
+		return this.listModelNoSelec;
+	}
+	
+	/**
+	 * Método que construye el modelo de JList, a utilizar para agregar y eliminar provincias
+	 */
+	private DefaultListModel getDefaultListModelSelect () {
+		this.listModelSelec = new DefaultListModel<Estudiante>();
+		return this.listModelSelec;
+	}
+	
+	/**
+	 * Para agregar alumnos que no tienen esa nota
+	 */
+	private void agregarNoSelec () {
+		//Para que cuando volvamos a darle a buscar no se dupliquen rsultados
+		this.listModelNoSelec.removeAllElements();
+		
+		
+		Materia materia = (Materia)this.jcbMateria.getSelectedItem();
+		Profesor profesor = (Profesor) this.jcbProfesor.getSelectedItem();
+		float nota = (float) this.jcbNota.getSelectedItem();
+		
+		//System.out.println(materia.getId() + "profesor: " + profesor.getId() + "Nota: " + nota);
+		
+		//añadimos a la lista tipo estudiante creada los resultados de la búsqueda en la bbdd
+		this.listaNoSelec = ControladorValoracionMateria.getInstance().findEstudiantesNotIn(materia.getId(), profesor.getId(), nota);
+		//añadimos esta lista a nuestro list model de no seleccionados
+		this.listModelNoSelec.addAll(listaNoSelec);
+
+	}
+	
+	/**
+	 * Para agregar alumnos que coinciden con esa selección
+	 */
+	private void agregarSelec () {
+		
+		this.listModelSelec.removeAllElements();
+		
+		Materia materia = (Materia)this.jcbMateria.getSelectedItem();
+		Profesor profesor = (Profesor) this.jcbProfesor.getSelectedItem();
+		float nota = (float) this.jcbNota.getSelectedItem();
+		
+		
+		//añadimos a la lista tipo estudiante creada los resultados de la búsqueda en la bbdd
+		this.listaSelec = ControladorValoracionMateria.getInstance().findByMateriaAndProfesorAndNota(materia.getId(), profesor.getId(), nota);
+		//añadimos esta lista a nuestro list model de no seleccionados
+		this.listModelSelec.addAll(listaSelec);
+
+	}
+	
+	/**
+	 * 
+	 */
+	private void removeFromNotSelected() {
+		//recorremos lista hacia atrás para eliminar seleccionados
+		for (int i = this.jlstNoSelec.getSelectedIndices().length - 1; i >= 0; i--) {
+			//antes de borrarlo de esta lista, lo añadimos a la de seleccionados
+			//this.listaSelec.add(this.jlstNoSelec.);
+			this.listModelNoSelec.removeElementAt(this.jlstNoSelec.getSelectedIndices()[i]);
+		}
+
 	}
 
 }
