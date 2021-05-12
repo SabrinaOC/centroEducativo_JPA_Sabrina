@@ -37,7 +37,8 @@ public class PanelNotasLista extends JPanel {
 	
 	
 	// Elemento JList a utilizar en el ejemplo
-	private JList jlstNoSelec, jlstSelec;
+	private JList<Estudiante> jlstNoSelec;
+	private JList<Estudiante> jlstSelec;
 	
 	// Modelo del elemento JList, necesario para que podamos c�modamente agregar y eliminar elementos
 	private DefaultListModel<Estudiante> listModelNoSelec = null;
@@ -237,6 +238,7 @@ public class PanelNotasLista extends JPanel {
 		JButton btnAddOne = new JButton(">");
 		btnAddOne.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				removeOneFromNotSelectedAndAddToSelec();
 			}
 		});
 		GridBagConstraints gbc_btnAddOne = new GridBagConstraints();
@@ -367,13 +369,47 @@ public class PanelNotasLista extends JPanel {
 	/**
 	 * 
 	 */
-	private void removeFromNotSelected() {
+	private void removeOneFromNotSelectedAndAddToSelec() {
 		//recorremos lista hacia atrás para eliminar seleccionados
 		for (int i = this.jlstNoSelec.getSelectedIndices().length - 1; i >= 0; i--) {
 			//antes de borrarlo de esta lista, lo añadimos a la de seleccionados
-			//this.listaSelec.add(this.jlstNoSelec.);
+			this.listaSelec.add(this.jlstNoSelec.getSelectedValue());
+			//lo eliminamos de la lista
 			this.listModelNoSelec.removeElementAt(this.jlstNoSelec.getSelectedIndices()[i]);
+			
+			//refrescamos la modelList de seleccionados
+			
+			Estudiante e = listaSelec.get(listaSelec.size()-1);
+			this.listModelSelec.addElement(e);
 		}
+		
+//		for (int i = 0; i < listaSelec.size()-1; i++) {
+//			System.out.println(listaSelec.get(i));
+//		}
+
+	}
+	
+	/**
+	 * 
+	 */
+	private void removeAllFromNotSelectedAndAddToSelec() {
+		//this.jlstNoSelec.getSelectedValuesList()
+		//recorremos lista hacia atrás para eliminar seleccionados
+		for (int i = this.jlstNoSelec.getSelectedIndices().length - 1; i >= 0; i--) {
+			//antes de borrarlo de esta lista, lo añadimos a la de seleccionados
+			this.listaSelec.add(this.jlstNoSelec.getSelectedValue());
+			//lo eliminamos de la lista
+			this.listModelNoSelec.removeElementAt(this.jlstNoSelec.getSelectedIndices()[i]);
+			
+			//refrescamos la modelList de seleccionados
+			
+			Estudiante e = listaSelec.get(listaSelec.size()-1);
+			this.listModelSelec.addElement(e);
+		}
+		
+//		for (int i = 0; i < listaSelec.size()-1; i++) {
+//			System.out.println(listaSelec.get(i));
+//		}
 
 	}
 
