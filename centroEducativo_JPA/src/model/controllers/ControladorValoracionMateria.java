@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
@@ -108,9 +109,9 @@ public class ControladorValoracionMateria {
 	 * @return
 	 */
 	public ValoracionMateria findByAlumnoAndProfesorAndMateria (int idEstudiante, int idProfesor, int idMateria) {
-		ValoracionMateria v;
+		ValoracionMateria v = null;
 		
-		
+		try {
 		EntityManager em = factory.createEntityManager();
 		Query q = em.createNativeQuery("select * from centroeducativo.valoracionmateria where idEstudiante=? and idProfesor=? and idMateria= ?", ValoracionMateria.class);
 		q.setParameter(1, idEstudiante);
@@ -118,7 +119,10 @@ public class ControladorValoracionMateria {
 		q.setParameter(3, idMateria);
 		v = (ValoracionMateria) q.getSingleResult();
 		em.close();
-		
+		}
+		catch (NoResultException nrEX) {
+			
+		}
 		return v;		
 	}	
 	
@@ -133,7 +137,7 @@ public class ControladorValoracionMateria {
 
 		EntityManager em = factory.createEntityManager();
 
-		Query q = em.createNativeQuery("SELECT * FROM valoracionmateria where idProfesor = ? and idMateria = ? and valoracion = ?", Estudiante.class);
+		Query q = em.createNativeQuery("SELECT e.* FROM estudiante e, valoracionmateria v where e.id = v.idEstudiante and idProfesor = ? and idMateria = ? and valoracion = ?", Estudiante.class);
 		q.setParameter(1, idProfesor);
 		q.setParameter(2, idMateria);
 		q.setParameter(3, valoracion);

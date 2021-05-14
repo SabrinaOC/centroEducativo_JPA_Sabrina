@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import model.controllers.ControladorValoracionMateria;
+
 import model.entities.Estudiante;
 import model.entities.Materia;
 import model.entities.Profesor;
@@ -19,11 +20,12 @@ public class PanelEspecialMateria extends JPanel {
 	private JPanel pnlBusqueda;
 	private JLabel jlblNombre;
 	private JTextField jtfNota;
-	private List<ValoracionMateria> list;
+	//private List<ValoracionMateria> list;
 	
 	Estudiante estudiante;
 	Profesor profesor;
 	Materia materia;
+	ValoracionMateria vActual;
 	//int nota;
 
 	/**
@@ -55,34 +57,66 @@ public class PanelEspecialMateria extends JPanel {
 		add(jtfNota, gbc_jtfNota);
 		jtfNota.setColumns(10);
 		
-		cargarDatos(this.estudiante, this.profesor, this.materia);
+		configuraFicha();
+		//cargarDatos(this.estudiante, this.profesor, this.materia);
 	}
-
-	public void cargarDatos(Estudiante estudiante, Profesor prof, Materia mat) {
-		// si estudiante es distinto de null, poner su apellido, nombre
-		if (estudiante != null) {
-			this.jlblNombre.setText(this.estudiante.getApellido1() + " " + this.estudiante.getApellido2() + ", "
-					+ this.estudiante.getNombre());
+	
+	/**
+	 * 
+	 */
+	private void configuraFicha() {
+		// configuro el texto del JLabel para mostrar apellidos y nombre del estudiante
+		if (this.estudiante != null) {
+			jlblNombre.setText(this.estudiante.getApellido1() + " " + this.estudiante.getApellido2() + ", " +
+					this.estudiante.getNombre());
 		}
 		
-		//buscar por materia, nota, profesor
-		//si existe el registro, lo mostramos, si no, dejamos el espacio en blanco para guardar
-		ValoracionMateria nota = ControladorValoracionMateria.getInstance().findByAlumnoAndProfesorAndMateria(estudiante.getId(),
-				prof.getId(), mat.getId());
-		if (nota != null) {
-			//this.jtfNota.setText("" + ControladorValoracionMateria.getInstance().findByAlumnoAndProfesorAndMateria(estudiante.getId(),
-					//prof.getId(), mat.getId()).getValoracion());
-			this.jtfNota.setText("" + 1);
-			
-			System.out.println("jtfNombre: " + this.jlblNombre + "\nnota: " + nota.getValoracion()
-			+ " estudiante: " + nota.getEstudiante().getNombre() + " profesor: " + nota.getProfesor().getNombre() + " materia: " + nota.getMateria().getNombre());
+		// Busco en la BBDD si ya existe una valoración para el estudiante, materia y profesor seleccionados.
+		this.vActual = ControladorValoracionMateria.getInstance().findByAlumnoAndProfesorAndMateria(estudiante.getId(), profesor.getId(), materia.getId());
+		if (this.vActual != null) {
+			this.jtfNota.setText("" + this.vActual.getValoracion());
 		}
-		
-
-		
-		
-		
+		else {
+			this.vActual = new ValoracionMateria();
+			this.vActual.setMateria(materia);
+			this.vActual.setProfesor(profesor);
+			this.vActual.setEstudiante(estudiante);
+		}
 	}
+
+//	public void cargarDatos(Estudiante estudiante, Profesor prof, Materia mat) {
+//		// si estudiante es distinto de null, poner su apellido, nombre
+//		if (estudiante != null) {
+//			this.jlblNombre.setText(this.estudiante.getApellido1() + " " + this.estudiante.getApellido2() + ", "
+//					+ this.estudiante.getNombre());
+//		}
+//		
+//		//buscar por materia, nota, profesor
+//		//si existe el registro, lo mostramos, si no, dejamos el espacio en blanco para guardar
+//		ValoracionMateria nota = ControladorValoracionMateria.getInstance().findByAlumnoAndProfesorAndMateria(estudiante.getId(),
+//				prof.getId(), mat.getId());
+//		if (nota != null) {
+//			//this.jtfNota.setText("" + ControladorValoracionMateria.getInstance().findByAlumnoAndProfesorAndMateria(estudiante.getId(),
+//					//prof.getId(), mat.getId()).getValoracion());
+//			this.jtfNota.setText("" + 1);
+//			
+//			System.out.println("jtfNombre: " + this.jlblNombre + "\nnota: " + nota.getValoracion()
+//			+ " estudiante: " + nota.getEstudiante().getNombre() + " profesor: " + nota.getProfesor().getNombre() + " materia: " + nota.getMateria().getNombre());
+//		}
+//		
+//		
+//	}
+	
+	/**
+	 * 
+	 */
+	public void guardaValoracion() {
+		String strValoracion = this.jtfNota.getText();
+		if (!strValoracion.equals("")) {
+			this.vActual.setValoracion(Float.parseFloat(this.jtfNota.getText()));
+			ControladorValoracionMateria.getInstance().guardar(vActual);
+		}
+	}	
 
 	public Estudiante getEstudiante() {
 		return estudiante;

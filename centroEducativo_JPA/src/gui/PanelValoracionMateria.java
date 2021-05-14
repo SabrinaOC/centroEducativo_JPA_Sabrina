@@ -13,6 +13,7 @@ import java.awt.Insets;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 
+
 import model.controllers.ControladorEstudiante;
 import model.controllers.ControladorMateria;
 import model.controllers.ControladorProfesor;
@@ -95,7 +96,7 @@ public class PanelValoracionMateria extends JPanel {
 					public void actionPerformed(ActionEvent e) {
 						cargarActualDesdePantalla();
 						
-						System.out.println("Profesor: " + profActual.getNombre() + "\nMateria: " + matActual.getNombre());
+						//System.out.println("Profesor: " + profActual.getNombre() + "\nMateria: " + matActual.getNombre());
 
 						// Al darle a este botón hay que crear en el scroll pane diversos paneles
 						// (estidiante, profesor, materia)
@@ -113,7 +114,7 @@ public class PanelValoracionMateria extends JPanel {
 		gbc_scrollPane.gridheight = 3;
 		gbc_scrollPane.gridwidth = 5;
 		gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
-		gbc_scrollPane.fill = GridBagConstraints.HORIZONTAL;
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 2;
 		add(scrollPane, gbc_scrollPane);
@@ -204,12 +205,10 @@ public class PanelValoracionMateria extends JPanel {
 		// guardamos todos los estudiantes en una lista
 		estudiantes = ControladorEstudiante.getInstance().findAll();
 
-		// creamos el panel que contendrá a todos los paneles especiales materia
-		// y que añadiremos al scrollpane
-		JPanel pnl = new JPanel();
+		
 		// recorremos la lista para crear tantos paneles como elementos
 		for (Estudiante e : estudiantes) {
-			System.out.println("Estudiante: " + e.getNombre());
+			//System.out.println("Estudiante: " + e.getNombre());
 			PanelEspecialMateria pnlAluNota = new PanelEspecialMateria(e, this.matActual, this.profActual);
 			
 			
@@ -218,12 +217,19 @@ public class PanelValoracionMateria extends JPanel {
 			this.listaPaneles.add(pnlAluNota);
 		}
 
+		// creamos el panel que contendrá a todos los paneles especiales materia
+		// y que añadiremos al scrollpane
+		JPanel pnl = new JPanel();
+		pnl.setLayout(new GridBagLayout());
+		
 		for (int i = 0; i < listaPaneles.size()-1; i++) {
 
-			GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
-			gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
-			gbc_lblNewLabel_1.gridx = 0;
-			gbc_lblNewLabel_1.gridy = i;
+			GridBagConstraints c = new GridBagConstraints();
+			c.gridx = 0;
+			c.gridy = i;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.weightx = 1;
+			pnl.add(this.listaPaneles.get(i), c);
 		}
 
 		this.scrollPane.setViewportView(pnl);
@@ -237,25 +243,11 @@ public class PanelValoracionMateria extends JPanel {
 	 * 
 	 */
 	private void guardar() {
-		// cargarActualDesdePantalla();
-		for (int i = 0; i < listaPaneles.size() - 1; i++) {
 
-			//cargo en actual todos los datos que necesito para guardar en bbdd
-			this.actual.setEstudiante(listaPaneles.get(i).getEstudiante());
-			this.actual.setProfesor(listaPaneles.get(i).getProfesor());
-			this.actual.setMateria(listaPaneles.get(i).getMateria());
-			this.actual.setValoracion(listaPaneles.get(i).getNota());
-			
-			boolean resultado = ControladorValoracionMateria.getInstance().guardar(this.actual);
-			if (resultado == true && this.actual != null && this.actual.getId() > 0) {
-				this.actual.getId();
-				// this.jtfId.setText("" + this.actual.getId());
-				JOptionPane.showMessageDialog(null, "Registro guardado correctamente");
-			} else {
-				JOptionPane.showMessageDialog(null, "Error al guardar registro " + this.actual.getEstudiante().getApellido1()
-						+ " " + this.actual.getEstudiante().getApellido2() + ", " + this.actual.getEstudiante().getNombre());
-			}
+		for (PanelEspecialMateria f : this.listaPaneles) {
+			f.guardaValoracion();
 		}
+		JOptionPane.showMessageDialog(null, "Valoraciones guardadas correctamente");
 
 	}
 }
