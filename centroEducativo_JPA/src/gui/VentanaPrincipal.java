@@ -8,6 +8,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 
+import gui.tablesPanles.PanelTablaAlumnos;
+
 public class VentanaPrincipal extends JFrame {
 
 	private JTabbedPane jTabbedPane = null;
@@ -64,7 +66,7 @@ public class VentanaPrincipal extends JFrame {
 		jTabbedPane.add("Estudiantes", new PanelEstudiante());
 		jTabbedPane.add("Valoración materia", new PanelValoracionMateria());
 		jTabbedPane.add("Notas", new PanelNotasLista());
-//		jTabbedPane.add("Ventas", new PanelVenta());
+		jTabbedPane.add("Tabla alumnos", new PanelTablaAlumnos());
 		
 		return jTabbedPane;
 	}

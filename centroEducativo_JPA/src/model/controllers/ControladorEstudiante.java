@@ -106,6 +106,22 @@ public class ControladorEstudiante {
 	
 	/**
 	 * 
+	 * @return
+	 */
+	public Estudiante findById (int idActual) {
+		Estudiante e = null;
+		
+		EntityManager em = factory.createEntityManager();
+		Query q = em.createNativeQuery("select * from centroeducativo.estudiante where id = ?", Estudiante.class);
+		q.setParameter(1, idActual);
+		e = (Estudiante) q.getSingleResult();
+		em.close();
+		
+		return e;		
+	}
+	
+	/**
+	 * 
 	 * @param idMateria
 	 * @param idProfesor
 	 * @param Nota

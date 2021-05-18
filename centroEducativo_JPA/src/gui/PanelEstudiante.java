@@ -121,7 +121,104 @@ public class PanelEstudiante extends JPanel {
 		cargarActualEnPantalla();
 
 	}
+	
+	
 
+	/**
+	 * Create the panel pasando estudiante
+	 */
+	public PanelEstudiante(Estudiante e) {
+		GridBagLayout gridBagLayout = new GridBagLayout();
+		gridBagLayout.columnWidths = new int[]{0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0};
+		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		setLayout(gridBagLayout);
+		
+		JToolBar toolBar = new JToolBar();
+		GridBagConstraints gbc_toolBar = new GridBagConstraints();
+		gbc_toolBar.insets = new Insets(0, 0, 5, 0);
+		gbc_toolBar.gridx = 0;
+		gbc_toolBar.gridy = 0;
+		add(toolBar, gbc_toolBar);
+		
+		JButton btnPrimero = new JButton("");
+		btnPrimero.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				actual = ControladorEstudiante.getInstance().findPrimero();
+				cargarActualEnPantalla();
+			}
+		});
+		btnPrimero.setIcon(new ImageIcon(PanelProfesor.class.getResource("/gui/iconos/btnPrimer.png")));
+		toolBar.add(btnPrimero);
+		
+		JButton btnAnterior = new JButton("");
+		btnAnterior.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				actual = ControladorEstudiante.getInstance().findAnterior(actual.getId());
+				cargarActualEnPantalla();
+			}
+		});
+		btnAnterior.setIcon(new ImageIcon(PanelProfesor.class.getResource("/gui/iconos/btnAnterior.png")));
+		toolBar.add(btnAnterior);
+		
+		JButton btnSiguiente = new JButton("");
+		btnSiguiente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				actual = ControladorEstudiante.getInstance().findSiguiente(actual.getId());
+				cargarActualEnPantalla();
+			}
+		});
+		btnSiguiente.setIcon(new ImageIcon(PanelProfesor.class.getResource("/gui/iconos/btnSiguiente.png")));
+		toolBar.add(btnSiguiente);
+		
+		JButton btnUltimo = new JButton("");
+		btnUltimo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				actual = ControladorEstudiante.getInstance().findUltimo();
+				cargarActualEnPantalla();
+			}
+		});
+		btnUltimo.setIcon(new ImageIcon(PanelProfesor.class.getResource("/gui/iconos/btnUltimo.png")));
+		toolBar.add(btnUltimo);
+		
+		JButton btnNuevo = new JButton("");
+		btnNuevo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				vaciarCampos();
+			}
+		});
+		btnNuevo.setIcon(new ImageIcon(PanelProfesor.class.getResource("/gui/iconos/btnNuevo.png")));
+		toolBar.add(btnNuevo);
+		
+		JButton btnGuardar = new JButton("");
+		btnGuardar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				guardar();
+			}
+		});
+		btnGuardar.setIcon(new ImageIcon(PanelProfesor.class.getResource("/gui/iconos/btnGuardar.png")));
+		toolBar.add(btnGuardar);
+		
+		JButton btnEliminar = new JButton("");
+		btnEliminar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				borrar();
+			}
+		});
+		btnEliminar.setIcon(new ImageIcon(PanelProfesor.class.getResource("/gui/iconos/btnEliminar.png")));
+		toolBar.add(btnEliminar);
+		
+		
+		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+		gbc_lblNewLabel.fill = GridBagConstraints.HORIZONTAL;
+		gbc_lblNewLabel.gridx = 0;
+		gbc_lblNewLabel.gridy = 1;
+		add(panelcomun, gbc_lblNewLabel);
+		
+		this.actual = ControladorEstudiante.getInstance().findById(e.getId());
+		cargarActualEnPantalla();		
+	}
 	
 
 	/**
